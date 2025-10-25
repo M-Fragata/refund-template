@@ -97,13 +97,28 @@ function expenseAdd(newExpense) {
 
 
         expenseUpdate(newExpense)
-
+        //Limpa os inputs após adicionar o item.
+        LimpaTela()
 
     } catch (error) {
         alert("Deu ruim")
     }
 
 }
+
+ul.addEventListener('click', (event) => {
+        //obtem o elemento que deseja ser clicado utilizando contains mais sua classe.
+    if (event.target.classList.contains("remove-icon")){
+
+        //Obtém a li pai do elemento clicado, utilizando o closest mais a classe do pai
+        const item = event.target.closest(".expense")
+        item.remove()
+    }
+
+    //Atualiza os valores totais da lista
+    expenseUpdate()
+
+})
 
 // Contador de despesas, soma cada despesa criada
 function expenseUpdate(newExpense) {
@@ -113,10 +128,6 @@ function expenseUpdate(newExpense) {
         const solicitacao = document.querySelector('header > p')
         solicitacao.innerHTML = `Minhas solicitações <i>&bullet;</i>${items.length} ${items.length > 1 ?"despesas" : "despesa"}`
 
-
-        //Transformando o valor das despesas em número
-        let transforNumber = Number(newExpense.amount.replace(",", "."))
-
         const amountTotal = document.querySelector('header > h2')
         let amountCount = 0
 
@@ -124,15 +135,25 @@ function expenseUpdate(newExpense) {
             const itemAmount = items[i].querySelector('.expense-amount')
             let value = Number(itemAmount.textContent.replace("R$", "").replace(/\./g, "").replace(",", "."))
 
-            amountCount += value
-            amountTotal.innerHTML = `<small>R$</small>${formatCurrencyBRL(amountCount).replace("R$", "")}`
+                    amountCount += value
         }
+                    amountTotal.innerHTML = `<small>R$</small>${formatCurrencyBRL(amountCount).replace("R$", "")}`
 
         return   
     } catch (error) {
         alert("Não foi possível atualizar os totais")
     }
 
+}
+
+//Função para limpar os inputs após adicionar despesa
+function LimpaTela() {
+    expense.value = ""
+    category.value = ""
+    amount.value = ""
+
+    //Após limpar o teclado vai direto para o input expense (nome da despesa)
+    expense.focus()
 }
 
 
