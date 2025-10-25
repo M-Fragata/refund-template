@@ -62,6 +62,8 @@ function expenseAdd(newExpense) {
         imgIcon.setAttribute("src", `./img/${newExpense.category_id}.svg`)
         imgIcon.setAttribute("alt", newExpense.category_name)
 
+
+//-----------<div><strong> </strong> <span> </span></div>-----------------      
         //Cria uma nova div e acrescenta classe
         const newDiv = document.createElement('div')
         newDiv.classList.add('expense-info')
@@ -77,11 +79,13 @@ function expenseAdd(newExpense) {
         //Acrescenta as tags strong e span dentro da div criada
         newDiv.appendChild(strong)
         newDiv.appendChild(span1)
+    
 
         //Cria uma segunda span acrescentando classe e conteúdo
         const span2 = document.createElement('span')
         span2.classList.add('expense-amount')
-        span2.textContent = newExpense.amount
+        span2.innerHTML = `<small>R$</small> ${newExpense.amount.replace("R$", "")}`
+ 
 
         const imgIcon2 = document.createElement('img')
         imgIcon2.classList.add('remove-icon')
@@ -89,11 +93,7 @@ function expenseAdd(newExpense) {
         imgIcon2.setAttribute('alt', "botão de excluir")
 
         //Acrescenta as tags div e span na li criada
-        newLi.appendChild(imgIcon)
-        newLi.appendChild(newDiv)
-        newLi.appendChild(span2)
-        newLi.appendChild(imgIcon2)
-
+        newLi.append(imgIcon, newDiv, span2, imgIcon2)
 
     } catch (error) {
         alert("Deu ruim")
